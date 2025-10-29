@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>GitHub Mood Ring</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>GitHub Mood Ring</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>GitHub Mood Ring Widget</h1>
-  
-  <!-- Input for username -->
-  <input type="text" id="username" placeholder="GitHub username" />
-  <button onclick="drawMoodRing()">Generate Mood Ring</button>
-
-  <!-- Canvas for mood ring -->
-  <canvas id="moodRing" width="200" height="200"></canvas>
-
+  <div class="container">
+    <h1>🌈 GitHub Mood Ring</h1>
+    <p>Enter your GitHub username:</p>
+    <input type="text" id="username" placeholder="octocat" />
+    <button onclick="drawMoodRing()">Generate Mood Ring</button>
+    <canvas id="moodRing" width="220" height="220"></canvas>
+    <p class="note">You can also share this page: <span id="share-link"></span></p>
+  </div>
   <script src="widget.js"></script>
 </body>
 </html>
