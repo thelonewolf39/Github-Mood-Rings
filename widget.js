@@ -8,14 +8,14 @@ async function getScore(username) {
     if (e.type === "PullRequestEvent") score += 5;
     if (e.type === "IssuesEvent") score += 2;
   });
-
   return score;
 }
 
 async function drawMoodRing() {
-  const username = document.getElementById('username').value;
-  if (!username) return alert('Enter a GitHub username!');
-  
+  const usernameInput = document.getElementById('username');
+  const username = usernameInput.value.trim();
+  if (!username) return alert('Please enter a GitHub username!');
+
   const score = await getScore(username);
   const canvas = document.getElementById('moodRing');
   const ctx = canvas.getContext('2d');
@@ -24,22 +24,34 @@ async function drawMoodRing() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Background
-  ctx.fillStyle = '#222';
+  ctx.fillStyle = '#fff';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Ring
+  // Mood ring
   const angle = Math.min(score / 50, 1) * 2 * Math.PI;
   ctx.beginPath();
-  ctx.arc(100, 100, 80, -Math.PI / 2, -Math.PI / 2 + angle);
+  ctx.arc(110, 110, 90, -Math.PI / 2, -Math.PI / 2 + angle);
   ctx.lineWidth = 20;
 
-  // Color by activity
-  ctx.strokeStyle = score < 10 ? '#FF0000' : score < 25 ? '#FFFF00' : '#00FF00';
+  // Color gradient
+  ctx.strokeStyle = score < 10 ? '#FF4C4C' : score < 25 ? '#FFD93D' : '#4CAF50';
   ctx.stroke();
 
-  // Fun event (5% chance)
-  if (Math.random() < 0.05) {
-    ctx.font = '20px Arial';
-    ctx.fillText('🪳', 90, 110); // Alaskan Bull Worm
+  // Fun random event
+  if (Math.random() < 0.1) {
+    ctx.font = '30px Arial';
+    ctx.fillText('🪳', 90, 120); // Alaskan Bull Worm
   }
+
+  // Update share link
+  const shareLink = `${window.location.origin}${window.location.pathname}?user=${username}`;
+  document.getElementById('share-link').innerHTML = `<a href="${shareLink}" target="_blank">${shareLink}</a>`;
+}
+
+// Auto-load if username provided in URL
+const urlParams = new URLSearchParams(window.location.search);
+const presetUser = urlParams.get('user');
+if (presetUser) {
+  document.getElementById('username').value = presetUser;
+  drawMoodRing();
 }
