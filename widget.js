@@ -68,7 +68,14 @@ async function drawMoodRing(username) {
 
   // Update share link
   const shareLink = `${window.location.origin}${window.location.pathname}?user=${username}`;
-  document.getElementById('share-link').innerHTML = `<a href="${shareLink}" target="_blank">${shareLink}</a>`;
+  const shareLinkElem = document.getElementById('share-link');
+  shareLinkElem.textContent = ''; // Clear previous content
+  const a = document.createElement('a');
+  a.href = shareLink;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.textContent = shareLink;
+  shareLinkElem.appendChild(a);
 }
 
 let lastUsername = null; // store last generated username
